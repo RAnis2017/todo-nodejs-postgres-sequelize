@@ -11,8 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Todos, {
-        foreignKey: 'parentId'
+      this.hasMany(models.Todos,{
+        onDelete: 'CASCADE',
+        foreignKey: {
+            name: 'parentId',
+            allowNull: true
+        },
+        as: 'subtasks'
       })
     }
   };

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('Todos', 'completed', Sequelize.BOOLEAN);
+    await queryInterface.addColumn('Todos', 'completed', {type: Sequelize.BOOLEAN, defaultValue: false});
     await queryInterface.addColumn('Todos', 'parentId', {
       type: Sequelize.INTEGER,
       references: {

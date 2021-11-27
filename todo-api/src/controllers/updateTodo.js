@@ -5,6 +5,6 @@ module.exports = (req, res) => {
         { completed: req.body.status },
         { where: { id: req.body.id } }
     )
-    .then(todo => res.status(201).send(todo))
+    .then(todo => res.status(201).send({ success: true, data: { todo } }))
     .catch(err => res.status(400).send(err))
 }

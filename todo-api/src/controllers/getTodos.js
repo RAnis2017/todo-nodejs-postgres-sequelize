@@ -6,6 +6,6 @@ module.exports = (req, res) => {
     ], where: {
         parentId: null
     }})
-    .then(todos => res.status(200).send(todos))
+    .then(todos => res.status(200).send({ success: true, data: { todos } }))
     .catch(err => res.status(400).send(err))
 }

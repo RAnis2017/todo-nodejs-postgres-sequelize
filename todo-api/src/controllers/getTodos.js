@@ -2,7 +2,7 @@ const Todos = require('../models').Todos;
 
 module.exports = (req, res) => {
     return Todos.findAll({include: [
-        { model: Todos, as: 'subtasks' }
+        { model: Todos, as: 'subTasks' }
     ], where: {
         parentId: null
     }})

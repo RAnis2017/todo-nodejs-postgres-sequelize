@@ -45,6 +45,7 @@ export default class Provider extends Component {
                                             let todoIndex = this.state.todos.findIndex((item) => item.id === todo.parentId)
                                             
                                             if(todoIndex > -1) {
+                                                this.state.todos[todoIndex].status = false
                                                 if(this.state.todos[todoIndex].subTasks) {
                                                     this.state.todos[todoIndex].subTasks.push(todo)
                                                 } else {

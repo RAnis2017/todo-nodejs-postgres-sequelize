@@ -22,10 +22,14 @@ const TodoList = ({ todos, updateTodoStatus }) => {
         setInputText('')
     }
     
-    return <div>
+    return <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '60%'
+    }}>
         {todos?.map((todo, key) =>
             <Form key={key}>
-                <Card style={{ marginBottom: '1rem' }} key={todo?.id}>
+                <Card style={{ marginBottom: '0rem', borderBottom: 'none' }} key={todo?.id}>
                     <CardHeader className="accordionToggle" onClick={() => toggle(todo?.id)} data-event={todo?.id}>
                         <FormGroup
                             check
@@ -49,17 +53,21 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                                         <FormGroup
                                             check
                                             key={index}
+                                            style={{
+                                                borderBottom: '1px solid #ccc'
+                                            }}
+                                            onClick={(e) => updateTodoStatus(task?.id, task?.status, null, e)}
                                         >
-                                            <Input type="checkbox" className="statusCheckBox" checked={task.status} onClick={(e) => updateTodoStatus(task?.id, task?.status, null, e)} />
+                                            <Input type="checkbox" className="statusCheckBox" checked={task.status} />
                                             <Label check>
-                                                {index + 1} {task.title}
+                                                {task.title}
                                             </Label>
                                         </FormGroup>
                                     ) :
                                     <p>No steps yet. Add Some!</p>
                             }
                         </CardBody>
-                        <div className="addTodoList">
+                        <div className="addTodoList" style={{marginBottom: '25px'}}>
                             <Input value={inputText} className="inputText" onChange={(e) => setInputText(e.target.value)} />
 
                             <Button
@@ -67,6 +75,7 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                                 className="inputButton" 
                                 onClick={() => handleInputSubmit(todo?.id)}
                                 disabled={inputText.length < 1}
+                                
                             >
                                 New Step
                             </Button>

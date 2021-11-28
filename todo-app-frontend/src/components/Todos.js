@@ -34,9 +34,14 @@ const Todos = ({
     return <Context.Consumer>
         {context => (
             <>
-                <h3>Todo App</h3>
+                <h3 style={{
+                    marginTop: '50px',
+                }}>Todo App</h3>
 
-                <div className="addTodoList">
+                <div className="addTodoList" style={{
+                    marginTop: '50px',
+                    marginBottom: '50px'
+                }}>
                     <Input value={inputText} className="inputText" onChange={(e) => setInputText(e.target.value)}/>
 
                     <Button

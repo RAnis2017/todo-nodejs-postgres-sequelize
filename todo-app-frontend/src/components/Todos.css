@@ -23,3 +23,8 @@
 .tasksList label {
     cursor: pointer;
 }
+
+.accordionToggle {
+    display: flex;
+    justify-content: center;
+}

@@ -18,7 +18,7 @@ export default class Provider extends Component {
             todos.map((todo) => {
                 todo.count = 0
 
-                todo?.subTasks.map((task) => {
+                todo?.subTasks?.map((task) => {
                     if(task.status) {
                         todo.count += 1
                     }

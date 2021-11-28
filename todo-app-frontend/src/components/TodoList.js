@@ -42,7 +42,7 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                         </FormGroup>
 
                         <div>
-                            <p>{todo.count} of {todo?.subTasks ? todo?.subTasks.length : 0}</p>
+                            <p>{todo.count} of {todo?.subTasks ? todo?.subTasks.length : 0} Completed</p>
                         </div>
                     </CardHeader>
                     <Collapse isOpen={index === todo?.id}>

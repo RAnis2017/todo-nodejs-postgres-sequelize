@@ -44,18 +44,7 @@ describe('TodoList Component', () => {
         }]
 
     const updateHandler = async (id, status, todo_id, e) => {
-        let todoIndex = todos.findIndex(item => item.id === id)
-        todos.map((todoItem) => {
-            let todoTaskIndex = todoTaskIndex = todoItem.subTasks.findIndex(item => item.id === id)
-            if (todoTaskIndex > -1) {
-                todoItem[todoTaskIndex].status = !status
-            }
-        })
-        if (todoIndex > -1) {
-            if (todo_id !== null) {
-                todos[todoIndex].status = !status
-            }
-        }
+        
     }
     beforeAll(() => {
         Enzyme.configure({ adapter: new Adapter() })

@@ -9,7 +9,7 @@ describe('Todo Component', () => {
         Enzyme.configure({ adapter: new Adapter() })
     })
 
-    it('renders correctly', () => {
+    it('render correctly', () => {
         const component = shallow(<Todos />)
         expect(component).toMatchSnapshot()
     })

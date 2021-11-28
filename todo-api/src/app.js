@@ -5,12 +5,11 @@ const port = 3000
 var cors = require('cors')
 
 app.use(cors())
-app.use(bodyParser.json())
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-)
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 app.use('/api',require('./routes'));
 

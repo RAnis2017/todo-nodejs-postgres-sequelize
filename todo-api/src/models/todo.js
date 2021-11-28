@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Todos',
         key: 'parentId'
       }
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     }
   }, {
     sequelize,

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('Todos', 'completed', {type: Sequelize.BOOLEAN, defaultValue: false});
+    await queryInterface.addColumn('Todos', 'status', {type: Sequelize.BOOLEAN, defaultValue: false});
     await queryInterface.addColumn('Todos', 'parentId', {
       type: Sequelize.INTEGER,
       references: {
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeColumn('Todos', 'completed');
+    await queryInterface.removeColumn('Todos', 'status');
     await queryInterface.removeColumn('Todos', 'parentId');
   }
 };

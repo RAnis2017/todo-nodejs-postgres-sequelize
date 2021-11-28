@@ -5,7 +5,7 @@ import { Component } from 'react';
 export default class Provider extends Component {
     apiURL = 'http://localhost:3000/api/';
     headerOptions = {
-        'Content-Type': 'application/vnd.api+json',
+        'Content-Type': 'application/json',
         'Accept': 'application/json,text/*;q=0.99'
     }
     state = {
@@ -17,28 +17,81 @@ export default class Provider extends Component {
             <Context.Provider
                 value={{
                     todos: this.state.todos,
-                    createTodo: (title, parentId = null) => {
-                        console.log('using fetch to add a new todo to the db!')
+                    createTodo: async (title, todo_id = null) => {
+                        try {
+                            await fetch(this.apiURL, { method: 'POST', headers: {...this.headerOptions}, body: JSON.stringify({
+                                title,
+                                todo_id
+                            }) }).then((response) => response.json()).then((res) => {
+                                if(res.success === true) {
+                                    let todo = res.data && res.data.todo ? res.data.todo : null
+                                    
+                                    if(todo) {
+                                        if(todo_id) {
+                                            let todoIndex = this.state.todos.findIndex((item) => item.id === todo.parentId)
+                                            
+                                            if(todoIndex > -1) {
+                                                if(this.state.todos[todoIndex].subTasks) {
+                                                    this.state.todos[todoIndex].subTasks.push(todo)
+                                                } else {
+                                                    this.state.todos[todoIndex].subTasks = [todo]
+                                                }
+                                                
+                                            }
+                                            
+                                            this.setState({...this.state, todos: [...this.state.todos]})
+                                        } else {
+                                            this.setState({...this.state, todos: [...this.state.todos, todo]})
+                                        }
+                                    }
+                                }
+                            })
+                        } catch(e) {
+                            console.error(e)
+                        }
                     },
-                    updateTodoStatus: (id, currentStatus, taskId = null, e) => {
+                    updateTodoStatus: async (id, status, todo_id = null, e) => {
                         e.stopPropagation()
-                        console.log('using fetch to change todo status!', id, currentStatus, taskId)
+                        try {
+                            await fetch(this.apiURL, { method: 'PUT', headers: {...this.headerOptions}, body: JSON.stringify({
+                                id,
+                                status: !status,
+                                todo_id
+                            }) }).then((response) => response.json()).then((res) => {
+                                if(res.success === true) {
+                                    let updated = res.data && res.data.todo && res.data.todo[0] > 0
+                                    
+                                    if(updated) {
+                                       console.log('Updated')
+                                    }
+                                }
+                            })
+                        } catch(e) {
+                            console.error(e)
+                        }
                     },
-                    deleteTodo: (id) => {
-                        console.log('using fetch to delete todo!')
+                    deleteTodo: async (id) => {
+                        console.log('using fetch to delete todo!') // Not Required to USE
                     },
                     getAllTodos: async () => {
                         try {
-                            await fetch(this.apiURL, { method: 'GET', ...this.headerOptions }).then((response) => response.json()).then((res) => {
+                            await fetch(this.apiURL, { method: 'GET', headers: {...this.headerOptions} }).then((response) => response.json()).then((res) => {
                                 if(res.success === true) {
                                     let todos = res.data && res.data.todos ? res.data.todos : []
-                                    
+                                    todos.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
+
+                                    todos = todos.map((item) => {
+                                        if(item.subTasks) {
+                                            item.subTasks.sort((a, b) => parseFloat(a.id) - parseFloat(b.id))
+                                        }
+                                        
+                                        return item
+                                    })
+
                                     this.setState({...this.state, todos})
                                     console.log('using fetch to get all todos!',res)
                                 }
                             })
-
-                            
                         } catch(e) {
                             console.error(e)
                         }

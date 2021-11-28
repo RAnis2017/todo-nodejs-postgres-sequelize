@@ -4,29 +4,31 @@ import { Input, Button } from 'reactstrap'
 import './Todos.css'
 import TodoList from './TodoList';
 
-const Todos = () => {
+const Todos = ({
+    todos = []
+}) => {
     const contextState = useContext(Context);
 
     useEffect(() => {
-        contextState.getAllTodos()
+        contextState?.getAllTodos()
     }, [])
 
     useEffect(() => {
-        console.log(contextState.todos)
-    }, [contextState.todos])
+        console.log(contextState?.todos)
+    }, [contextState?.todos ? contextState.todos : todos])
 
     const [inputText, setInputText] = useState('')
 
     const handleInputSubmit = () => {
-        contextState.createTodo(inputText, null)
+        contextState?.createTodo(inputText, null)
 
         setInputText('')
     }
 
     const updateHandler = async (id, status, todo_id, e) => {
-        await contextState.updateTodoStatus(id, status, todo_id, e)
+        await contextState?.updateTodoStatus(id, status, todo_id, e)
 
-        await contextState.getAllTodos()
+        await contextState?.getAllTodos()
     }
 
     return <Context.Consumer>
@@ -35,10 +37,11 @@ const Todos = () => {
                 <h3>Todo App</h3>
 
                 <div className="addTodoList">
-                    <Input value={inputText} onChange={(e) => setInputText(e.target.value)}/>
+                    <Input value={inputText} className="inputText" onChange={(e) => setInputText(e.target.value)}/>
 
                     <Button
                         color="primary"
+                        className="inputButton"
                         onClick={() => handleInputSubmit()}
                         disabled={inputText.length < 1}
                     >
@@ -46,7 +49,7 @@ const Todos = () => {
                     </Button>
                 </div>
                 {
-                    <TodoList todos={context.todos} updateTodoStatus={updateHandler} />
+                    <TodoList todos={context?.todos ? context?.todos : todos} updateTodoStatus={updateHandler} />
                 }
             </>
         )}

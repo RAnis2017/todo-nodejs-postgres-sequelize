@@ -17,22 +17,22 @@ const TodoList = ({ todos, updateTodoStatus }) => {
     const [inputText, setInputText] = useState('')
 
     const handleInputSubmit = (parentId) => {
-        contextState.createTodo(inputText, parentId)
+        contextState?.createTodo(inputText, parentId)
 
         setInputText('')
     }
 
 
     return <div>
-        {todos.map((todo, key) =>
-            <Form>
+        {todos?.map((todo, key) =>
+            <Form key={key}>
                 <Card style={{ marginBottom: '1rem' }} key={todo?.id}>
-                    <CardHeader onClick={() => toggle(todo?.id)} data-event={todo?.id}>
+                    <CardHeader className="accordionToggle" onClick={() => toggle(todo?.id)} data-event={todo?.id}>
                         <FormGroup
                             check
                             inline
                         >
-                            <Input type="checkbox" checked={todo?.status} onClick={(e) => updateTodoStatus(todo?.id, todo?.status, todo?.id, e)} />
+                            <Input type="checkbox" className="statusCheckBox" checked={todo?.status} onClick={(e) => updateTodoStatus(todo?.id, todo?.status, todo?.id, e)} />
                             <Label check>
                                 {todo?.title}
                             </Label>
@@ -45,8 +45,9 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                                     todo?.subTasks?.map((task, index) =>
                                         <FormGroup
                                             check
+                                            key={index}
                                         >
-                                            <Input type="checkbox" checked={task.status} onClick={(e) => updateTodoStatus(task?.id, task?.status, null, e)} />
+                                            <Input type="checkbox" className="statusCheckBox" checked={task.status} onClick={(e) => updateTodoStatus(task?.id, task?.status, null, e)} />
                                             <Label check>
                                                 {index + 1} {task.title}
                                             </Label>
@@ -56,10 +57,11 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                             }
                         </CardBody>
                         <div className="addTodoList">
-                            <Input value={inputText} onChange={(e) => setInputText(e.target.value)} />
+                            <Input value={inputText} className="inputText" onChange={(e) => setInputText(e.target.value)} />
 
                             <Button
                                 color="primary"
+                                className="inputButton" 
                                 onClick={() => handleInputSubmit(todo?.id)}
                                 disabled={inputText.length < 1}
                             >

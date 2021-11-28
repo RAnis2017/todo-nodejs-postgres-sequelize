@@ -3,33 +3,13 @@ import React from 'react';
 import { Component } from 'react';
 
 export default class Provider extends Component {
+    apiURL = 'http://localhost:3000/api/';
+    headerOptions = {
+        'Content-Type': 'application/vnd.api+json',
+        'Accept': 'application/json,text/*;q=0.99'
+    }
     state = {
-        todos: [{
-            id: 1,
-            title: 'Hard Coded Test Todo',
-            status: true,
-            parentId: null,
-            subTasks: [] 
-        },{
-            id: 2,
-            title: 'Commit All Code',
-            status: false,
-            parentId: null,
-            subTasks: [{
-                id: 4,
-                title: 'Committed Backend Code',
-                status: false
-            },{
-                id: 5,
-                title: 'Committed Frontend Code',
-                status: true
-            }] 
-        },{
-            id: 3,
-            title: 'Work Tomorrow as well',
-            parentId: null,
-            subTasks: [] 
-        }]
+        todos: []
     };
 
     render() {
@@ -47,8 +27,21 @@ export default class Provider extends Component {
                     deleteTodo: (id) => {
                         console.log('using fetch to delete todo!')
                     },
-                    getAllTodos: () => {
-                        console.log('using fetch to get all todos!')
+                    getAllTodos: async () => {
+                        try {
+                            await fetch(this.apiURL, { method: 'GET', ...this.headerOptions }).then((response) => response.json()).then((res) => {
+                                if(res.success === true) {
+                                    let todos = res.data && res.data.todos ? res.data.todos : []
+                                    
+                                    this.setState({...this.state, todos})
+                                    console.log('using fetch to get all todos!',res)
+                                }
+                            })
+
+                            
+                        } catch(e) {
+                            console.error(e)
+                        }
                     }
                 }}
             >

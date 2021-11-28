@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             name: 'parentId',
             allowNull: true
         },
-        as: 'subtasks'
+        as: 'subTasks'
       })
     }
   };

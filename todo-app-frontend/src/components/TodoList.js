@@ -1,5 +1,5 @@
 import Context from '../store/Context';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Collapse, Card, CardBody, CardHeader, Input, Button, Form, FormGroup, Label } from 'reactstrap'
 // @ts-ignore
 const TodoList = ({ todos, updateTodoStatus }) => {
@@ -21,8 +21,7 @@ const TodoList = ({ todos, updateTodoStatus }) => {
 
         setInputText('')
     }
-
-
+    
     return <div>
         {todos?.map((todo, key) =>
             <Form key={key}>
@@ -37,6 +36,10 @@ const TodoList = ({ todos, updateTodoStatus }) => {
                                 {todo?.title}
                             </Label>
                         </FormGroup>
+
+                        <div>
+                            <p>{todo.count} of {todo?.subTasks ? todo?.subTasks.length : 0}</p>
+                        </div>
                     </CardHeader>
                     <Collapse isOpen={index === todo?.id}>
                         <CardBody className="tasksList">

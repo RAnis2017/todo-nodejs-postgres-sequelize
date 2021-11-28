@@ -13,6 +13,20 @@ export default class Provider extends Component {
     };
 
     render() {
+        
+        const getCompletedTasksCount = (todos) => {
+            todos.map((todo) => {
+                todo.count = 0
+
+                todo?.subTasks.map((task) => {
+                    if(task.status) {
+                        todo.count += 1
+                    }
+                })
+            })
+
+            return todos
+        }
         return (
             <Context.Provider
                 value={{
@@ -39,9 +53,11 @@ export default class Provider extends Component {
                                                 
                                             }
                                             
-                                            this.setState({...this.state, todos: [...this.state.todos]})
+                                            let todos = getCompletedTasksCount([...this.state.todos])
+                                            this.setState({...this.state, todos: [...todos]})
                                         } else {
-                                            this.setState({...this.state, todos: [...this.state.todos, todo]})
+                                            let todos = getCompletedTasksCount([...this.state.todos, todo])
+                                            this.setState({...this.state, todos: [...todos]})
                                         }
                                     }
                                 }
@@ -88,6 +104,7 @@ export default class Provider extends Component {
                                         return item
                                     })
 
+                                    todos = getCompletedTasksCount([...todos])
                                     this.setState({...this.state, todos})
                                     console.log('using fetch to get all todos!',res)
                                 }
